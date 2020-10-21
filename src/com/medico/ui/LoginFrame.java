@@ -1,19 +1,50 @@
 package com.medico.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 public class LoginFrame extends JFrame {
 
 	public LoginFrame() {
 		setTitle("Login");
+
+		Container con = getContentPane();
+
+		con.add(getTopComponent(), BorderLayout.NORTH);
+		con.add(getCenterPanel(), BorderLayout.CENTER);
+		con.add(getBottomPanel(), BorderLayout.SOUTH);
+
+		// setSize(500, 400);
+		pack();
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		setVisible(true);
+	}
+
+	private JPanel getCenterPanel() {
+
+		JPanel panel = new JPanel(new GridBagLayout());
+
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
 
 		JLabel lbEmail = new JLabel("Email");
 		JLabel lbPass = new JLabel("Password");
@@ -21,44 +52,66 @@ public class LoginFrame extends JFrame {
 		JTextField txtEmail = new JTextField(15);
 		JTextField txtPass = new JPasswordField(15);
 
-		JButton btnOK = new JButton("OK");
-		JButton btnExit = new JButton("Exit");
-
-		setLayout(new GridBagLayout());
-
-		GridBagConstraints gbc = new GridBagConstraints();
-
-		gbc.insets = new Insets(5, 5, 5, 5);
-
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		add(lbEmail, gbc);
+		panel.add(lbEmail, gbc);
 
 		// gbc.gridx = 0;
 		gbc.gridy = 1;
-		add(lbPass, gbc);
-
-		// gbc.gridx = 0;
-		gbc.gridy = 2;
-		add(btnOK, gbc);
+		panel.add(lbPass, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		add(txtEmail, gbc);
+		panel.add(txtEmail, gbc);
 
 		// gbc.gridx = 1;
 		gbc.gridy = 1;
-		add(txtPass, gbc);
+		panel.add(txtPass, gbc);
 
-		// gbc.gridx = 1;
-		gbc.gridy = 2;
-		add(btnExit, gbc);
+		Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
 
-		//setSize(500, 400);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		pack();
-		setVisible(true);
+		panel.setBorder(border);
+
+		return panel;
+	}
+
+	private JLabel getTopComponent() {
+
+		URL url = getClass().getResource("/images/banner1.png");
+		ImageIcon icon = new ImageIcon(url);
+
+		JLabel lbHeader = new JLabel(icon);
+
+		return lbHeader;
+	}
+
+	private JPanel getBottomPanel() {
+
+		JPanel panel = new JPanel();
+
+		JButton btnOK = new JButton("OK");
+		JButton btnExit = new JButton("Exit");
+		JButton btnNewUser = new JButton("New User?");
+
+		btnOK.addActionListener(e -> {
+			System.out.println("OK button is clicked");
+		});
+
+		btnExit.addActionListener(e -> {
+			System.exit(0);
+		});
+
+		btnNewUser.addActionListener(e -> {
+			new RegistrationFrame();
+
+			LoginFrame.this.dispose();
+		});
+
+		panel.add(btnOK);
+		panel.add(btnNewUser);
+		panel.add(btnExit);
+
+		return panel;
 	}
 
 }
