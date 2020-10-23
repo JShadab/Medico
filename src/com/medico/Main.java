@@ -3,7 +3,8 @@ package com.medico;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.medico.ui.RegistrationFrame;
+import com.medico.ui.HomeFrame;
+import com.medico.ui.LoginFrame;
 
 public class Main {
 
@@ -12,9 +13,9 @@ public class Main {
 
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-		//new LoginFrame();
-		
-		new RegistrationFrame();
+		new HomeFrame();
+
+		// new RegistrationFrame();
 
 	}
 

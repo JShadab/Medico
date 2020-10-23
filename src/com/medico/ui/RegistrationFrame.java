@@ -1,11 +1,14 @@
 package com.medico.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,11 +18,13 @@ import javax.swing.JTextField;
 public class RegistrationFrame extends JFrame {
 
 	public RegistrationFrame() {
-		setTitle("Registeration");
+		setTitle("Registration");
 
 		Container con = getContentPane();
 
+		con.add(getTopComponent(), BorderLayout.NORTH);
 		con.add(getCenterPanel());
+		con.add(getBottomPanel(), BorderLayout.SOUTH);
 
 		setSize(500, 400);
 		setLocationRelativeTo(null);
@@ -80,6 +85,42 @@ public class RegistrationFrame extends JFrame {
 		panel.add(txtCPassword, gbc);
 
 		return panel;
+	}
+
+	private JLabel getTopComponent() {
+
+		JLabel lbHeader = new JLabel("Registration Form", JLabel.CENTER);
+
+		Font font = new Font("ARIAL", Font.BOLD, 25);
+		lbHeader.setFont(font);
+		lbHeader.setForeground(Color.BLUE);
+
+		return lbHeader;
+
+	}
+
+	private JPanel getBottomPanel() {
+
+		JPanel panel = new JPanel();
+
+		JButton btnRegister = new JButton("Register");
+		JButton btnClose = new JButton("Close");
+
+		btnRegister.addActionListener(e -> {
+		});
+
+		btnClose.addActionListener(e -> {
+			RegistrationFrame.this.dispose();
+
+			new LoginFrame();
+
+		});
+
+		panel.add(btnRegister);
+		panel.add(btnClose);
+
+		return panel;
+
 	}
 
 }

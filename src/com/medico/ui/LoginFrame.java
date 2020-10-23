@@ -6,8 +6,6 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.BorderFactory;
@@ -91,24 +89,27 @@ public class LoginFrame extends JFrame {
 
 		JButton btnOK = new JButton("OK");
 		JButton btnExit = new JButton("Exit");
-		JButton btnNewUser = new JButton("New User?");
+		JButton btnSignUp = new JButton("Sign Up");
 
 		btnOK.addActionListener(e -> {
-			System.out.println("OK button is clicked");
+
+			// TODO Validating User
+
+			new HomeFrame();
 		});
 
 		btnExit.addActionListener(e -> {
 			System.exit(0);
 		});
 
-		btnNewUser.addActionListener(e -> {
+		btnSignUp.addActionListener(e -> {
 			new RegistrationFrame();
 
 			LoginFrame.this.dispose();
 		});
 
 		panel.add(btnOK);
-		panel.add(btnNewUser);
+		panel.add(btnSignUp);
 		panel.add(btnExit);
 
 		return panel;
