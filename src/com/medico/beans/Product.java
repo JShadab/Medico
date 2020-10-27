@@ -15,11 +15,11 @@ public class Product {
 	private String dealer;
 	private String formula;
 	private String symptoms;
-	private float costPrice;
-	private float sellingPrice;
-	private float sgst;
-	private float cgst;
-	private float discount;
+	private double costPrice;
+	private double sellingPrice;
+	private double sgst;
+	private double cgst;
+	private double discount;
 	private String power;
 
 	public int getId() {
@@ -94,43 +94,43 @@ public class Product {
 		this.symptoms = symptoms;
 	}
 
-	public float getCostPrice() {
+	public double getCostPrice() {
 		return costPrice;
 	}
 
-	public void setCostPrice(float costPrice) {
+	public void setCostPrice(double costPrice) {
 		this.costPrice = costPrice;
 	}
 
-	public float getSellingPrice() {
+	public double getSellingPrice() {
 		return sellingPrice;
 	}
 
-	public void setSellingPrice(float sellingPrice) {
+	public void setSellingPrice(double sellingPrice) {
 		this.sellingPrice = sellingPrice;
 	}
 
-	public float getSgst() {
+	public double getSgst() {
 		return sgst;
 	}
 
-	public void setSgst(float sgst) {
+	public void setSgst(double sgst) {
 		this.sgst = sgst;
 	}
 
-	public float getCgst() {
+	public double getCgst() {
 		return cgst;
 	}
 
-	public void setCgst(float cgst) {
+	public void setCgst(double cgst) {
 		this.cgst = cgst;
 	}
 
-	public float getDiscount() {
+	public double getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(float discount) {
+	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
 

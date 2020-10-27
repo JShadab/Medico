@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import com.medico.beans.Product;
 import com.medico.enums.Category;
 import com.medico.enums.ProductType;
 
@@ -130,6 +131,38 @@ public class HomeFrame extends JFrame {
 		JButton btnClose = new JButton("Close");
 
 		btnSave.addActionListener(e -> {
+
+			String name = txtName.getText();
+			String company = txtCompany.getText();
+			Category category = (Category) cmbCategory.getSelectedItem();
+			ProductType type = (ProductType) cmbType.getSelectedItem();
+			String expiryDate = txtExpiryDate.getText();
+			String dealer = txtDealer.getText();
+			String formula = txtFormula.getText();
+			String symptoms = txtSymptoms.getText();
+			double cPrice = Double.parseDouble(txtCostPrice.getText());
+			double sPrice = Double.parseDouble(txtSellingPrice.getText());
+			double sgst = Double.parseDouble(txtsgst.getText());
+			double discount = Double.parseDouble(txtDiscount.getText());
+			String power = txtPower.getText();
+			double cgst = Double.parseDouble(txtCgst.getText());
+
+			Product product = new Product();
+			product.setCategory(category);
+			product.setCgst(cgst);
+			product.setCompany(company);
+			product.setCostPrice(cPrice);
+			product.setDealer(dealer);
+			product.setDiscount(discount);
+			product.setExpiryDate(expiryDate);
+			product.setFormula(formula);
+			product.setName(name);
+			product.setPower(power);
+			product.setSellingPrice(sPrice);
+			product.setSgst(sgst);
+			product.setSymptoms(symptoms);
+			product.setType(type);
+
 		});
 		btnClose.addActionListener(e -> {
 		});
@@ -155,14 +188,14 @@ public class HomeFrame extends JFrame {
 		JLabel lbName = new JLabel("Name");
 		panel.add(lbName, gbc);
 		gbc.gridx = 1;
-		JTextField txtName = new JTextField(15);
+		txtName = new JTextField(15);
 		panel.add(txtName, gbc);
 
 		gbc.gridx = 2;
 		JLabel lbCompany = new JLabel("Company");
 		panel.add(lbCompany, gbc);
 		gbc.gridx = 3;
-		JTextField txtCompany = new JTextField(15);
+		txtCompany = new JTextField(15);
 		panel.add(txtCompany, gbc);
 
 		/*--------------------------------Second Row----------------------------------------*/
@@ -172,7 +205,8 @@ public class HomeFrame extends JFrame {
 		panel.add(lbCategory, gbc);
 
 		gbc.gridx = 1;
-		JComboBox<Category> cmbCategory = new JComboBox<Category>(Category.values());
+		cmbCategory = new JComboBox<Category>(Category.values());
+
 		panel.add(cmbCategory, gbc);
 
 		gbc.gridx = 2;
@@ -180,7 +214,7 @@ public class HomeFrame extends JFrame {
 		panel.add(lbType, gbc);
 
 		gbc.gridx = 3;
-		JComboBox<ProductType> cmbType = new JComboBox<ProductType>(ProductType.values());
+		cmbType = new JComboBox<ProductType>(ProductType.values());
 		panel.add(cmbType, gbc);
 
 		/*--------------------------------Third Row----------------------------------------*/
@@ -188,15 +222,17 @@ public class HomeFrame extends JFrame {
 		gbc.gridy = 2;
 		JLabel lbExpiryDate = new JLabel("Expiry Date(dd/MM/YYYY)");
 		panel.add(lbExpiryDate, gbc);
+
 		gbc.gridx = 1;
-		JTextField txtExpiryDate = new JTextField(15);
+		txtExpiryDate = new JTextField(15);
 		panel.add(txtExpiryDate, gbc);
 
 		gbc.gridx = 2;
 		JLabel lbDealer = new JLabel("Dealer");
 		panel.add(lbDealer, gbc);
+
 		gbc.gridx = 3;
-		JTextField txtDealer = new JTextField(15);
+		txtDealer = new JTextField(15);
 		panel.add(txtDealer, gbc);
 
 		/*--------------------------------Fourth Row----------------------------------------*/
@@ -204,15 +240,17 @@ public class HomeFrame extends JFrame {
 		gbc.gridy = 3;
 		JLabel lbFormula = new JLabel("Formula");
 		panel.add(lbFormula, gbc);
+
 		gbc.gridx = 1;
-		JTextField txtFormula = new JTextField(15);
+		txtFormula = new JTextField(15);
 		panel.add(txtFormula, gbc);
 
 		gbc.gridx = 2;
 		JLabel lbSymptoms = new JLabel("Symtoms");
 		panel.add(lbSymptoms, gbc);
+
 		gbc.gridx = 3;
-		JTextField txtSymptoms = new JTextField(15);
+		txtSymptoms = new JTextField(15);
 		panel.add(txtSymptoms, gbc);
 
 		/*--------------------------------Fifth Row----------------------------------------*/
@@ -220,15 +258,17 @@ public class HomeFrame extends JFrame {
 		gbc.gridy = 4;
 		JLabel lbCostPrice = new JLabel("Cost Price");
 		panel.add(lbCostPrice, gbc);
+
 		gbc.gridx = 1;
-		JTextField txtCostPrice = new JTextField(15);
+		txtCostPrice = new JTextField(15);
 		panel.add(txtCostPrice, gbc);
 
 		gbc.gridx = 2;
 		JLabel lbSellingPrice = new JLabel("Selling Price");
 		panel.add(lbSellingPrice, gbc);
+
 		gbc.gridx = 3;
-		JTextField txtSellingPrice = new JTextField(15);
+		txtSellingPrice = new JTextField(15);
 		panel.add(txtSellingPrice, gbc);
 
 		/*--------------------------------Sixth Row----------------------------------------*/
@@ -238,14 +278,16 @@ public class HomeFrame extends JFrame {
 		JLabel lbsgst = new JLabel("SGST");
 		panel.add(lbsgst, gbc);
 		gbc.gridx = 1;
-		JTextField txtsgst = new JTextField(15);
+
+		txtsgst = new JTextField(15);
 		panel.add(txtsgst, gbc);
 
 		gbc.gridx = 2;
 		JLabel lbCgst = new JLabel("CGST");
 		panel.add(lbCgst, gbc);
+
 		gbc.gridx = 3;
-		JTextField txtCgst = new JTextField(15);
+		txtCgst = new JTextField(15);
 		panel.add(txtCgst, gbc);
 
 		/*--------------------------------Seventh Row----------------------------------------*/
@@ -254,19 +296,35 @@ public class HomeFrame extends JFrame {
 
 		JLabel lbDiscount = new JLabel("Discount");
 		panel.add(lbDiscount, gbc);
+
 		gbc.gridx = 1;
-		JTextField txtDiscount = new JTextField(15);
+		txtDiscount = new JTextField(15);
 		panel.add(txtDiscount, gbc);
 
 		gbc.gridx = 2;
 		JLabel lbPower = new JLabel("Power");
 		panel.add(lbPower, gbc);
+
 		gbc.gridx = 3;
-		JTextField txtPower = new JTextField(15);
+		txtPower = new JTextField(15);
 		panel.add(txtPower, gbc);
 
 		return panel;
 
 	}
 
+	private JTextField txtName;
+	private JTextField txtCompany;
+	private JComboBox<Category> cmbCategory;
+	private JComboBox<ProductType> cmbType;
+	private JTextField txtExpiryDate;
+	private JTextField txtDealer;
+	private JTextField txtFormula;
+	private JTextField txtSymptoms;
+	private JTextField txtCostPrice;
+	private JTextField txtSellingPrice;
+	private JTextField txtsgst;
+	private JTextField txtDiscount;
+	private JTextField txtPower;
+	private JTextField txtCgst;
 }
