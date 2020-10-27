@@ -18,11 +18,13 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import com.medico.beans.Product;
+import com.medico.db.dao.ProductDAO;
 import com.medico.enums.Category;
 import com.medico.enums.ProductType;
 
@@ -146,8 +148,11 @@ public class HomeFrame extends JFrame {
 			double discount = Double.parseDouble(txtDiscount.getText());
 			String power = txtPower.getText();
 			double cgst = Double.parseDouble(txtCgst.getText());
+			
+			//TODO Validation code
 
 			Product product = new Product();
+
 			product.setCategory(category);
 			product.setCgst(cgst);
 			product.setCompany(company);
@@ -162,6 +167,14 @@ public class HomeFrame extends JFrame {
 			product.setSgst(sgst);
 			product.setSymptoms(symptoms);
 			product.setType(type);
+
+			boolean isOK = ProductDAO.save(product);
+
+			if (isOK) {
+				JOptionPane.showMessageDialog(HomeFrame.this, "Stock added successfully.");
+			} else {
+				JOptionPane.showMessageDialog(HomeFrame.this, "Stock not added successfully.");
+			}
 
 		});
 		btnClose.addActionListener(e -> {
