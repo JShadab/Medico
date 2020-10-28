@@ -2,10 +2,14 @@ package com.medico.db.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.medico.beans.Product;
 import com.medico.db.DbConnection;
+import com.medico.enums.Category;
+import com.medico.enums.ProductType;
 
 public class ProductDAO {
 
@@ -36,7 +40,7 @@ public class ProductDAO {
 			ps.setString(14, product.getPower());
 
 			ps.executeUpdate();
-			
+
 			return true;
 
 		} catch (Exception e) {
@@ -58,22 +62,79 @@ public class ProductDAO {
 	}
 
 	public static List<Product> getAll() {
-		throw new UnsupportedOperationException("this is not implemented yet...");
+
+		List<Product> products = new ArrayList<Product>();
+
+		try (Connection conn = DbConnection.getConnection()) {
+
+			String selectSQL = "SELECT * FROM product";
+
+			PreparedStatement ps = conn.prepareStatement(selectSQL);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				int id = rs.getInt(ID);
+				String name = rs.getString(NAME);
+				String company = rs.getString(COMAPNY);
+				Category category = Category.getEnum(rs.getString(CATEGORY));
+				ProductType type = ProductType.getEnum(rs.getString(TYPE));
+				String expiryDate = rs.getString(EXPIRY_DATE);
+				String dealer = rs.getString(DEALER);
+				String formula = rs.getString(FORMULA);
+				String symptoms = rs.getString(SYMTOMS);
+				double cPrice = rs.getDouble(COST_PRICE);
+				double sPrice = rs.getDouble(SELL_PRICE);
+				double sgst = rs.getDouble(SGST);
+				double discount = rs.getDouble(DISCOUNT);
+				String power = rs.getString(POWER);
+				double cgst = rs.getDouble(CGST);
+
+				
+				Product product = new Product();
+
+				product.setId(id);
+				product.setCategory(category);
+				product.setCgst(cgst);
+				product.setCompany(company);
+				product.setCostPrice(cPrice);
+				product.setDealer(dealer);
+				product.setDiscount(discount);
+				product.setExpiryDate(expiryDate);
+				product.setFormula(formula);
+				product.setName(name);
+				product.setPower(power);
+				product.setSellingPrice(sPrice);
+				product.setSgst(sgst);
+				product.setSymptoms(symptoms);
+				product.setType(type);
+				
+				products.add(product);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return products;
 	}
 
-	private static final String NAME = "name";
-	private static final String COMAPNY = "company";
-	private static final String CATEGORY = "category";
-	private static final String TYPE = "type";
-	private static final String EXPIRY_DATE = "expiry_date";
-	private static final String DEALER = "dealer";
-	private static final String FORMULA = "formula";
-	private static final String SYMTOMS = "symptoms";
-	private static final String COST_PRICE = "cost_price";
-	private static final String SELL_PRICE = "sell_price";
-	private static final String SGST = "sgst";
-	private static final String CGST = "cgst";
-	private static final String DISCOUNT = "discount";
-	private static final String POWER = "power";
+	public static final String ID = "id";
+	public static final String NAME = "name";
+	public static final String COMAPNY = "company";
+	public static final String CATEGORY = "category";
+	public static final String TYPE = "type";
+	public static final String EXPIRY_DATE = "expiry_date";
+	public static final String DEALER = "dealer";
+	public static final String FORMULA = "formula";
+	public static final String SYMTOMS = "symptoms";
+	public static final String COST_PRICE = "cost_price";
+	public static final String SELL_PRICE = "sell_price";
+	public static final String SGST = "sgst";
+	public static final String CGST = "cgst";
+	public static final String DISCOUNT = "discount";
+	public static final String POWER = "power";
 
 }
