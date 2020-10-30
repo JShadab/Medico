@@ -6,17 +6,22 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 
+import javax.annotation.processing.FilerException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class LoginFrame extends JFrame {
 
@@ -95,7 +100,25 @@ public class LoginFrame extends JFrame {
 
 			// TODO Validating User
 
-			new HomeFrame();
+			String sb = "TEST CONTENT";
+			JFileChooser chooser = new JFileChooser();
+			
+			FileNameExtensionFilter filter=new FileNameExtensionFilter("PNG Image Files", ".png");
+			
+			chooser.setCurrentDirectory(new File("/home/me/Documents"));
+			chooser.addChoosableFileFilter(filter);
+			chooser.setFileFilter(filter);
+			int retrival = chooser.showSaveDialog(null);
+			if (retrival == JFileChooser.APPROVE_OPTION) {
+				try {
+					FileWriter fw = new FileWriter(chooser.getSelectedFile() + ".txt");
+					fw.write(sb.toString());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+			// new HomeFrame();
 		});
 
 		btnExit.addActionListener(e -> {

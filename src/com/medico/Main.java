@@ -4,7 +4,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.medico.ui.HomeFrame;
-import com.medico.ui.LoginFrame;
 
 public class Main {
 
@@ -16,6 +15,8 @@ public class Main {
 		new HomeFrame();
 
 		// new RegistrationFrame();
+
+		//new LoginFrame();
 
 	}
 

@@ -50,7 +50,35 @@ public class ProductDAO {
 	}
 
 	public static void update(Product product) {
-		throw new UnsupportedOperationException("Update is not implemented yet...");
+
+		String updateSQL = "UPDATE product SET name=?, company=?, category=?, type=?, expiry_date=?, dealer=?, formula=?, symptoms=?, cost_price=?, sell_price=?, sgst=?, cgst=?, discount=?, power=?  WHERE id=?";
+
+		try (Connection con = DbConnection.getConnection()) {
+
+			PreparedStatement ps = con.prepareStatement(updateSQL);
+
+			ps.setString(1, product.getName());
+			ps.setString(2, product.getCompany());
+			ps.setString(3, product.getCategory().toString());
+			ps.setString(4, product.getType().toString());
+			ps.setString(5, product.getExpiryDate());
+			ps.setString(6, product.getDealer());
+			ps.setString(7, product.getFormula());
+			ps.setString(8, product.getSymptoms());
+			ps.setDouble(9, product.getCostPrice());
+			ps.setDouble(10, product.getSellingPrice());
+			ps.setDouble(11, product.getSgst());
+			ps.setDouble(12, product.getCgst());
+			ps.setDouble(13, product.getDiscount());
+			ps.setString(14, product.getPower());
+			ps.setInt(15, product.getId());
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public static void delete(int productID) {
@@ -91,7 +119,6 @@ public class ProductDAO {
 				String power = rs.getString(POWER);
 				double cgst = rs.getDouble(CGST);
 
-				
 				Product product = new Product();
 
 				product.setId(id);
@@ -109,7 +136,7 @@ public class ProductDAO {
 				product.setSgst(sgst);
 				product.setSymptoms(symptoms);
 				product.setType(type);
-				
+
 				products.add(product);
 
 			}
@@ -119,6 +146,14 @@ public class ProductDAO {
 		}
 
 		return products;
+	}
+
+	public static void updateAll(List<Product> products) {
+
+		for (Product prod : products) {
+			update(prod);
+		}
+
 	}
 
 	public static final String ID = "id";

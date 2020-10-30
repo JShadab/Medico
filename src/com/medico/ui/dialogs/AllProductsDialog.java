@@ -3,13 +3,17 @@ package com.medico.ui.dialogs;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 import com.medico.ui.ProductTableModel;
 
@@ -22,22 +26,43 @@ public class AllProductsDialog extends JDialog {
 
 		Container con = this.getContentPane();
 
-		con.add(getCenterPanel());
+		con.add(getCenterPanel(), BorderLayout.CENTER);
 		con.add(getButtonPanel(), BorderLayout.SOUTH);
 
-		setSize(500, 500);
+		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 
 	private Component getButtonPanel() {
 		JPanel panel = new JPanel();
+
+		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(e -> {
+
+			ProductTableModel model = (ProductTableModel) table.getModel();
+
+			model.updateToDB();
+			
+			JOptionPane.showMessageDialog(AllProductsDialog.this, "Stock updated successfully");
+
+		});
+
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(e -> {
+			AllProductsDialog.this.dispose();
+		});
+
+		panel.add(btnUpdate);
+		panel.add(btnClose);
 		return panel;
 	}
 
 	private Component getCenterPanel() {
 
-		JTable table = new JTable(new ProductTableModel());
+		table = new JTable(new ProductTableModel());
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setCellSelectionEnabled(true);
 
 		TableColumnModel columnModel = table.getColumnModel();
 
@@ -51,4 +76,5 @@ public class AllProductsDialog extends JDialog {
 		return jsp;
 	}
 
+	private JTable table;
 }
