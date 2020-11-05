@@ -20,6 +20,10 @@ public class ProductTableModel extends AbstractTableModel {
 		products = ProductDAO.getAll();
 	}
 
+	public ProductTableModel(List<Product> products) {
+		this.products = products;
+	}
+
 	@Override
 	public int getRowCount() {
 		return products.size();
@@ -49,35 +53,35 @@ public class ProductTableModel extends AbstractTableModel {
 		Product product = products.get(rowIndex);
 
 		switch (columnIndex) {
-		case 0:
+		case COL_ID:
 			return product.getId();
-		case 1:
+		case COL_NAME:
 			return product.getName();
-		case 2:
+		case COL_COMAPNY:
 			return product.getCompany();
-		case 3:
+		case COL_CATEGORY:
 			return product.getCategory();
-		case 4:
+		case COL_TYPE:
 			return product.getType();
-		case 5:
+		case COL_EXPIRY_DATE:
 			return product.getExpiryDate();
-		case 6:
+		case COL_DEALER:
 			return product.getDealer();
-		case 7:
+		case COL_FORMULA:
 			return product.getFormula();
-		case 8:
+		case COL_SYMTOMS:
 			return product.getSymptoms();
-		case 9:
+		case COL_COST_PRICE:
 			return product.getCostPrice();
-		case 10:
+		case COL_SELL_PRICE:
 			return product.getSellingPrice();
-		case 11:
+		case COL_SGST:
 			return product.getSgst();
-		case 12:
+		case COL_CGST:
 			return product.getCgst();
-		case 13:
+		case COL_DISCOUNT:
 			return product.getDiscount();
-		case 14:
+		case COL_POWER:
 			return product.getPower();
 		default:
 			return "";
@@ -92,81 +96,80 @@ public class ProductTableModel extends AbstractTableModel {
 
 		switch (columnIndex) {
 
-		case 1: {
+		case COL_NAME: {
 			String name = (String) aValue;
 			product.setName(name);
 			break;
 		}
-		case 2: {
+		case COL_COMAPNY: {
 			String company = (String) aValue;
 			product.setCompany(company);
 			break;
 		}
-
-		case 3: {
+		case COL_CATEGORY: {
 			String category = (String) aValue;
 			product.setCategory(Category.getEnum(category));
 			break;
 		}
-		case 4: {
+		case COL_TYPE: {
 			String type = (String) aValue;
 
 			product.setType(ProductType.getEnum(type));
 			break;
 		}
 
-		case 5: {
+		case COL_EXPIRY_DATE: {
 			String expiryDate = (String) aValue;
 			product.setExpiryDate(expiryDate);
 			;
 			break;
 		}
-		case 6: {
+		case COL_DEALER: {
 			String dealer = (String) aValue;
 			product.setDealer(dealer);
-			;
+
 			break;
 		}
-		case 7: {
+		case COL_FORMULA: {
 			String formula = (String) aValue;
 			product.setFormula(formula);
-			;
+
 			break;
 		}
-		case 8: {
+		case COL_SYMTOMS: {
 			String symptoms = (String) aValue;
 			product.setSymptoms(symptoms);
-			;
+
 			break;
 		}
-		case 9: {
+		case COL_COST_PRICE: {
 			double costPrice = Double.valueOf((String) aValue);
 			product.setCostPrice(costPrice);
 			break;
 		}
 
-		case 10: {
+		case COL_SELL_PRICE: {
 			double sellPrice = Double.valueOf((String) aValue);
 			product.setSellingPrice(sellPrice);
 			break;
 		}
-		case 11: {
+		case COL_SGST: {
 			double sgst = Double.valueOf((String) aValue);
 			product.setSgst(sgst);
 			break;
 		}
 
-		case 12: {
+		case COL_CGST: {
 			double cgst = Double.valueOf((String) aValue);
 			product.setCgst(cgst);
 			break;
 		}
-		case 13: {
+		case COL_DISCOUNT: {
 			double discount = Double.valueOf((String) aValue);
 			product.setDiscount(discount);
 			break;
 		}
-		case 14: {
+		case COL_POWER: {
 			String power = (String) aValue;
 			product.setPower(power);
 			break;
@@ -174,8 +177,36 @@ public class ProductTableModel extends AbstractTableModel {
 
 		}
 	}
-	
-	public void updateToDB() {		
+
+	public void updateToDB() {
 		ProductDAO.updateAll(products);
 	}
+
+	public void deleteFromDB(int selectedRowIndex) {
+
+		Product removedProduct = products.remove(selectedRowIndex);
+
+		ProductDAO.delete(removedProduct.getId());
+
+		fireTableDataChanged();
+
+	}
+
+	public static final int COL_ID = 0;
+	public static final int COL_NAME = 1;
+	public static final int COL_COMAPNY = 2;
+	public static final int COL_CATEGORY = 3;
+	public static final int COL_TYPE = 4;
+	public static final int COL_EXPIRY_DATE = 5;
+	public static final int COL_DEALER = 6;
+	public static final int COL_FORMULA = 7;
+	public static final int COL_SYMTOMS = 8;
+	public static final int COL_COST_PRICE = 9;
+	public static final int COL_SELL_PRICE = 10;
+	public static final int COL_SGST = 11;
+	public static final int COL_CGST = 12;
+	public static final int COL_DISCOUNT = 13;
+	public static final int COL_POWER = 14;
+	public static final int COL_SELECT = 15;
+
 }

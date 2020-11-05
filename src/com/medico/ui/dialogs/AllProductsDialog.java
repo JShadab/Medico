@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.print.PrinterException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -29,7 +30,7 @@ public class AllProductsDialog extends JDialog {
 		con.add(getCenterPanel(), BorderLayout.CENTER);
 		con.add(getButtonPanel(), BorderLayout.SOUTH);
 
-		pack();
+		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
@@ -43,9 +44,36 @@ public class AllProductsDialog extends JDialog {
 			ProductTableModel model = (ProductTableModel) table.getModel();
 
 			model.updateToDB();
-			
+
 			JOptionPane.showMessageDialog(AllProductsDialog.this, "Stock updated successfully");
 
+		});
+
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(e -> {
+
+			int selectedRowIndex = table.getSelectedRow();
+
+			if (selectedRowIndex == -1) {
+				JOptionPane.showMessageDialog(AllProductsDialog.this, "Please select a row for deletion");
+				return;
+			}
+
+			ProductTableModel model = (ProductTableModel) table.getModel();
+
+			model.deleteFromDB(selectedRowIndex);
+
+			JOptionPane.showMessageDialog(AllProductsDialog.this, "Stock deleted successfully");
+
+		});
+
+		JButton btnPrint = new JButton("Print");
+		btnPrint.addActionListener(e -> {
+			try {
+				table.print();
+			} catch (PrinterException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		JButton btnClose = new JButton("Close");
@@ -54,13 +82,17 @@ public class AllProductsDialog extends JDialog {
 		});
 
 		panel.add(btnUpdate);
+		panel.add(btnDelete);
+		panel.add(btnPrint);
 		panel.add(btnClose);
+
 		return panel;
 	}
 
 	private Component getCenterPanel() {
 
 		table = new JTable(new ProductTableModel());
+
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setCellSelectionEnabled(true);
 
@@ -68,7 +100,12 @@ public class AllProductsDialog extends JDialog {
 
 		for (int i = 0; i < columnModel.getColumnCount(); i++) {
 
-			columnModel.getColumn(i).setMinWidth(100);
+			if (i == 0) {
+				columnModel.getColumn(i).setMaxWidth(25);
+			} else {
+
+				columnModel.getColumn(i).setMinWidth(100);
+			}
 		}
 
 		JScrollPane jsp = new JScrollPane(table);

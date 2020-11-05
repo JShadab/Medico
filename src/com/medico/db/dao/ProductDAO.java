@@ -82,7 +82,20 @@ public class ProductDAO {
 	}
 
 	public static void delete(int productID) {
-		throw new UnsupportedOperationException("Delete is not implemented yet...");
+
+		try (Connection conn = DbConnection.getConnection()) {
+
+			String deleteSQL = "DELETE FROM product WHERE id=?";
+
+			PreparedStatement ps = conn.prepareStatement(deleteSQL);
+			ps.setInt(1, productID);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public static Product getOne(int productID) {
@@ -153,6 +166,68 @@ public class ProductDAO {
 		for (Product prod : products) {
 			update(prod);
 		}
+
+	}
+
+	public static List<Product> getAll(String searchBy, String searchKey) {
+
+		String selectSQL = "SELECT * FROM product WHERE " + searchBy + "=?";
+
+		List<Product> products = new ArrayList<Product>();
+
+		try (Connection conn = DbConnection.getConnection()) {
+
+			PreparedStatement ps = conn.prepareStatement(selectSQL);
+			
+			ps.setString(1, searchKey);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				int id = rs.getInt(ID);
+				String name = rs.getString(NAME);
+				String company = rs.getString(COMAPNY);
+				Category category = Category.getEnum(rs.getString(CATEGORY));
+				ProductType type = ProductType.getEnum(rs.getString(TYPE));
+				String expiryDate = rs.getString(EXPIRY_DATE);
+				String dealer = rs.getString(DEALER);
+				String formula = rs.getString(FORMULA);
+				String symptoms = rs.getString(SYMTOMS);
+				double cPrice = rs.getDouble(COST_PRICE);
+				double sPrice = rs.getDouble(SELL_PRICE);
+				double sgst = rs.getDouble(SGST);
+				double discount = rs.getDouble(DISCOUNT);
+				String power = rs.getString(POWER);
+				double cgst = rs.getDouble(CGST);
+
+				Product product = new Product();
+
+				product.setId(id);
+				product.setCategory(category);
+				product.setCgst(cgst);
+				product.setCompany(company);
+				product.setCostPrice(cPrice);
+				product.setDealer(dealer);
+				product.setDiscount(discount);
+				product.setExpiryDate(expiryDate);
+				product.setFormula(formula);
+				product.setName(name);
+				product.setPower(power);
+				product.setSellingPrice(sPrice);
+				product.setSgst(sgst);
+				product.setSymptoms(symptoms);
+				product.setType(type);
+
+				products.add(product);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return products;
 
 	}
 

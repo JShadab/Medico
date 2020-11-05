@@ -16,6 +16,7 @@ import javax.swing.border.Border;
 
 import com.medico.ui.dialogs.AddProductDialog;
 import com.medico.ui.dialogs.AllProductsDialog;
+import com.medico.ui.dialogs.SearchProductDialog;
 
 public class HomeFrame extends JFrame {
 
@@ -26,10 +27,13 @@ public class HomeFrame extends JFrame {
 
 		Container con = getContentPane();
 
+		JLabel lbHomeBanner = new JLabel(new ImageIcon(getClass().getResource("/images/home_banner.jpg")));
+
+		con.add(lbHomeBanner, BorderLayout.CENTER);
 		con.add(getFooterPanel(), BorderLayout.SOUTH);
 
-		setSize(700, 600);
-		// setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// setSize(700, 600);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -69,17 +73,24 @@ public class HomeFrame extends JFrame {
 				showAddProductDialog();
 			});
 
-			JMenuItem deleteStock = new JMenuItem("Delete Stock");
-			JMenuItem printStock = new JMenuItem("Print Stock");
+			// JMenuItem deleteStock = new JMenuItem("Delete Stock");
+			// JMenuItem printStock = new JMenuItem("Print Stock");
 
 			mnuStock.add(viewStock);
 			mnuStock.add(addStock);
-			mnuStock.add(deleteStock);
-			mnuStock.add(printStock);
+			// mnuStock.add(deleteStock);
+			// mnuStock.add(printStock);
 		}
 
 		JMenu mnuSearch = new JMenu("Search");
 		{
+			JMenuItem searchStock = new JMenuItem("Search Stock");
+
+			searchStock.addActionListener(e -> {
+				showSearchProductDialog();
+			});
+
+			mnuSearch.add(searchStock);
 		}
 		JMenu mnuSettings = new JMenu("Settings");
 		{
@@ -111,5 +122,8 @@ public class HomeFrame extends JFrame {
 		new AllProductsDialog(HomeFrame.this);
 	}
 
-	
+	private void showSearchProductDialog() {
+		new SearchProductDialog(HomeFrame.this);
+	}
+
 }
