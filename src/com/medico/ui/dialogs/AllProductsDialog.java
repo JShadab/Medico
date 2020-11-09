@@ -16,7 +16,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import com.medico.ui.ProductTableModel;
+import com.medico.ui.tablemodels.ProductTableModel;
 
 public class AllProductsDialog extends JDialog {
 

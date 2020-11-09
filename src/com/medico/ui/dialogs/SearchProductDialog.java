@@ -3,6 +3,7 @@ package com.medico.ui.dialogs;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -20,7 +21,7 @@ import com.medico.beans.Product;
 import com.medico.db.dao.ProductDAO;
 import com.medico.enums.Category;
 import com.medico.enums.ProductType;
-import com.medico.ui.ProductTableModel;
+import com.medico.ui.tablemodels.ProductTableModel;
 
 public class SearchProductDialog extends JDialog {
 
@@ -44,6 +45,7 @@ public class SearchProductDialog extends JDialog {
 		JPanel panel = new JPanel();
 
 		JButton btnSearch = new JButton("Search");
+		JButton btnClear = new JButton("Clear");
 		JButton btnClose = new JButton("Close");
 
 		btnSearch.addActionListener(e -> {
@@ -60,11 +62,18 @@ public class SearchProductDialog extends JDialog {
 			table.setModel(new ProductTableModel(products));
 
 		});
+		
+		
+		btnClear.addActionListener(e -> {
+			table.setModel(new ProductTableModel(new ArrayList<>()));
+		});
+		
 		btnClose.addActionListener(e -> {
 			SearchProductDialog.this.dispose();
 		});
 
 		panel.add(btnSearch);
+		panel.add(btnClear);
 		panel.add(btnClose);
 
 		return panel;

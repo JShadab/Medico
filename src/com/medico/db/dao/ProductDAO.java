@@ -17,8 +17,8 @@ public class ProductDAO {
 
 		String insertSQL = "INSERT INTO product (" + NAME + " , " + COMAPNY + ", " + CATEGORY + ", " + TYPE + ", "
 				+ EXPIRY_DATE + ", " + DEALER + ", " + FORMULA + " , " + SYMTOMS + "," + COST_PRICE + ", " + SELL_PRICE
-				+ ", " + SGST + ", " + CGST + ", " + DISCOUNT + ", " + POWER + ")"
-				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ ", " + SGST + ", " + CGST + ", " + DISCOUNT + ", " + POWER + ", " + UNITS + ")"
+				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try (Connection con = DbConnection.getConnection()) {
 
@@ -38,6 +38,7 @@ public class ProductDAO {
 			ps.setDouble(12, product.getCgst());
 			ps.setDouble(13, product.getDiscount());
 			ps.setString(14, product.getPower());
+			ps.setInt(15, product.getUnits());
 
 			ps.executeUpdate();
 
@@ -51,7 +52,7 @@ public class ProductDAO {
 
 	public static void update(Product product) {
 
-		String updateSQL = "UPDATE product SET name=?, company=?, category=?, type=?, expiry_date=?, dealer=?, formula=?, symptoms=?, cost_price=?, sell_price=?, sgst=?, cgst=?, discount=?, power=?  WHERE id=?";
+		String updateSQL = "UPDATE product SET name=?, company=?, category=?, type=?, expiry_date=?, dealer=?, formula=?, symptoms=?, cost_price=?, sell_price=?, sgst=?, cgst=?, discount=?, power=? , units=?  WHERE id=?";
 
 		try (Connection con = DbConnection.getConnection()) {
 
@@ -71,7 +72,8 @@ public class ProductDAO {
 			ps.setDouble(12, product.getCgst());
 			ps.setDouble(13, product.getDiscount());
 			ps.setString(14, product.getPower());
-			ps.setInt(15, product.getId());
+			ps.setInt(15, product.getUnits());
+			ps.setInt(16, product.getId());
 
 			ps.executeUpdate();
 
@@ -131,6 +133,7 @@ public class ProductDAO {
 				double discount = rs.getDouble(DISCOUNT);
 				String power = rs.getString(POWER);
 				double cgst = rs.getDouble(CGST);
+				int units = rs.getInt(UNITS);
 
 				Product product = new Product();
 
@@ -149,6 +152,7 @@ public class ProductDAO {
 				product.setSgst(sgst);
 				product.setSymptoms(symptoms);
 				product.setType(type);
+				product.setUnits(units);
 
 				products.add(product);
 
@@ -171,15 +175,15 @@ public class ProductDAO {
 
 	public static List<Product> getAll(String searchBy, String searchKey) {
 
-		String selectSQL = "SELECT * FROM product WHERE " + searchBy + "=?";
+		String selectSQL = "SELECT * FROM product WHERE " + searchBy + " LIKE '%" + searchKey + "%'";
 
 		List<Product> products = new ArrayList<Product>();
 
 		try (Connection conn = DbConnection.getConnection()) {
 
 			PreparedStatement ps = conn.prepareStatement(selectSQL);
-			
-			ps.setString(1, searchKey);
+
+			// ps.setString(1, searchKey);
 
 			ResultSet rs = ps.executeQuery();
 
@@ -200,6 +204,7 @@ public class ProductDAO {
 				double discount = rs.getDouble(DISCOUNT);
 				String power = rs.getString(POWER);
 				double cgst = rs.getDouble(CGST);
+				int units = rs.getInt(UNITS);
 
 				Product product = new Product();
 
@@ -218,6 +223,7 @@ public class ProductDAO {
 				product.setSgst(sgst);
 				product.setSymptoms(symptoms);
 				product.setType(type);
+				product.setUnits(units);
 
 				products.add(product);
 
@@ -246,5 +252,6 @@ public class ProductDAO {
 	public static final String CGST = "cgst";
 	public static final String DISCOUNT = "discount";
 	public static final String POWER = "power";
+	public static final String UNITS = "units";
 
 }

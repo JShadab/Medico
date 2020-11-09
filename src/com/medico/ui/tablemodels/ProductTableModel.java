@@ -1,4 +1,4 @@
-package com.medico.ui;
+package com.medico.ui.tablemodels;
 
 import java.util.List;
 

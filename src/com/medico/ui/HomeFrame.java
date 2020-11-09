@@ -17,6 +17,7 @@ import javax.swing.border.Border;
 import com.medico.ui.dialogs.AddProductDialog;
 import com.medico.ui.dialogs.AllProductsDialog;
 import com.medico.ui.dialogs.SearchProductDialog;
+import com.medico.ui.dialogs.SellProductsDialog;
 
 public class HomeFrame extends JFrame {
 
@@ -49,6 +50,11 @@ public class HomeFrame extends JFrame {
 		JMenu mnuBilling = new JMenu("Billing");
 		{
 			JMenuItem newBill = new JMenuItem("New Bill", iconNewBill);
+
+			newBill.addActionListener(e -> {
+				showSellProductsDialog();
+			});
+
 			JMenuItem editBill = new JMenuItem("Edit Bill");
 			JMenuItem deleteBill = new JMenuItem("Delete Bill");
 			JMenuItem printBill = new JMenuItem("Print Bill");
@@ -124,6 +130,11 @@ public class HomeFrame extends JFrame {
 
 	private void showSearchProductDialog() {
 		new SearchProductDialog(HomeFrame.this);
+	}
+
+	private void showSellProductsDialog() {
+		new SellProductsDialog(HomeFrame.this);
+
 	}
 
 }

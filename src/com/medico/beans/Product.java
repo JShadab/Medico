@@ -21,6 +21,7 @@ public class Product {
 	private double cgst;
 	private double discount;
 	private String power;
+	private int units;
 
 	public int getId() {
 		return id;
@@ -141,13 +142,17 @@ public class Product {
 	public void setPower(String power) {
 		this.power = power;
 	}
+	
+	public int getUnits() {
+		return units;
+	}
+	public void setUnits(int units) {
+		this.units = units;
+	}
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", company=" + company + ", category=" + category + ", type="
-				+ type + ", expiryDate=" + expiryDate + ", dealer=" + dealer + ", formula=" + formula + ", symptoms="
-				+ symptoms + ", costPrice=" + costPrice + ", sellingPrice=" + sellingPrice + ", sgst=" + sgst
-				+ ", cgst=" + cgst + ", discount=" + discount + ", power=" + power + "]";
+		return name;
 	}
 
 }
