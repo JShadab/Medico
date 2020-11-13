@@ -179,6 +179,10 @@ public class SellProductTableModel extends AbstractTableModel {
 		products.add(sellProduct);
 		fireTableDataChanged();
 	}
+	
+	public List<SellProduct> getProducts() {
+		return products;
+	}
 
 	public static final int COL_NAME = 0;
 	public static final int COL_COMAPNY = 1;

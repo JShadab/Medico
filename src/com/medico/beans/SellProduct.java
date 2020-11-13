@@ -4,7 +4,7 @@ public class SellProduct {
 
 	public SellProduct(Product product) {
 
-		id = product.getId();
+		this.product = product;
 
 		name = product.getName();
 		company = product.getCompany();
@@ -96,8 +96,36 @@ public class SellProduct {
 		this.amount = amount;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
 	private int id;
 
+	private Product product;
+
+	private String customerName;
+	private String customerPhone;
 	private String name;
 	private String company;
 

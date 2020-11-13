@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +24,18 @@ import javax.swing.table.TableColumnModel;
 
 import com.medico.beans.Product;
 import com.medico.beans.SellProduct;
+import com.medico.db.dao.BillProductDAO;
 import com.medico.db.dao.ProductDAO;
 import com.medico.ui.tablemodels.SellProductTableModel;
 
 public class SellProductsDialog extends JDialog {
 
 	private JLabel lbGrandTotalAmt;
-
-
+	private JFrame frame;
 
 	public SellProductsDialog(JFrame frame) {
 		super(frame);
+		this.frame = frame;
 
 		setTitle("Sell Products");
 
@@ -70,9 +72,68 @@ public class SellProductsDialog extends JDialog {
 
 		JButton btnGenrateBill = new JButton("Genrate Bill");
 		btnGenrateBill.addActionListener(e -> {
+
+			String customerName = txtCustomerName.getText();
+			String customerPhone = txtCustomerPhone.getText();
+
+			SellProductTableModel model = (SellProductTableModel) table.getModel();
+
+			if (customerName == null || customerName.isEmpty()) {
+				JOptionPane.showMessageDialog(SellProductsDialog.this, "Please provide customer name");
+				return;
+			} else if (customerPhone == null || customerPhone.isEmpty()) {
+				JOptionPane.showMessageDialog(SellProductsDialog.this, "Please provide customer phone number");
+				return;
+			} else if (model.getRowCount() < 1) {
+				JOptionPane.showMessageDialog(SellProductsDialog.this, "Please add any product to sell.");
+				return;
+			}
+
+			List<SellProduct> allProducts = model.getProducts();
+
+			for (SellProduct sellProduct : allProducts) {
+
+				/*******************
+				 * Reduce the units of stock in product database
+				 **************************/
+				Product product = sellProduct.getProduct();
+
+				int orgUnits = product.getUnits();
+				int sellingUnits = sellProduct.getUnits();
+
+				product.setUnits(orgUnits - sellingUnits);
+
+				ProductDAO.update(product);
+				/*************************************************/
+
+				sellProduct.setCustomerName(customerName);
+				sellProduct.setCustomerPhone(customerPhone);
+
+				BillProductDAO.save(sellProduct);
+
+				try {
+					table.print();
+				} catch (PrinterException e1) {
+					e1.printStackTrace();
+				}
+			}
+
 			JOptionPane.showMessageDialog(SellProductsDialog.this, "Bill generated successfully");
 		});
+
+		JButton btnPrintBill = new JButton("Print Bill");
+		btnPrintBill.addActionListener(e -> {
+
+			SellProductTableModel model = (SellProductTableModel) table.getModel();
+
+			List<SellProduct> allSellProducts = model.getProducts();
+
+			JDialog dialog = new PrintPreviewDialog(frame, allSellProducts, txtCustomerName.getText(),
+					txtCustomerPhone.getText());
+		});
+
 		panelLeft.add(btnGenrateBill);
+		panelLeft.add(btnPrintBill);
 
 		JPanel panelRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
